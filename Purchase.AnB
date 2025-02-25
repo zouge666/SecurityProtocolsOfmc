@@ -1,0 +1,26 @@
+Protocol: Purchase
+
+Types:
+  Agent A, B, s;
+  Number X, Y, g, agreement_a, agreement_b, contract, dummy;
+  Function sk;
+
+Knowledge:
+  A: A, B, s, sk(A, s), g, agreement_a, dummy;
+  B: A, B, s, sk(B, s), g, agreement_b, dummy;
+  s: A, B, s, sk(A, s), sk(B, s), g, contract;
+
+Actions:
+  A->B: exp(g, X)
+  B->s: {| A, B, exp(g, X), exp(g, Y) |}sk(B, s)
+  s->A: {| A, B, exp(g, X), exp(g, Y) |}sk(A, s)
+  A->B: {| agreement_a |}exp(exp(g, X), Y)
+  B->s: {| agreement_a, agreement_b |}sk(B, s)
+  s->A: {| agreement_a, agreement_b, contract |}sk(A, s)
+  A->B: dummy
+  B->s: dummy
+  s->B: {| agreement_a, agreement_b, contract |}sk(B, s)
+
+Goals:
+  A authenticates B on exp(exp(g,X),Y);
+  B authenticates A on exp(exp(g,X),Y);
