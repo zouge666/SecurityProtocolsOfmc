@@ -15,11 +15,11 @@ Knowledge:
 Actions:
   A->B: A,B,NA,Terms
   B->s: A,B,NA,NB,Terms
-  s->A: {| contract(KAB, Terms), A, B, NA |}sk(A, s), {| contract(KAB, Terms), A, B, NB |}sk(B, s)
-  A->B: {| contract(KAB, Terms), A, B, NB |}sk(B, s)
+  s->A: {| contract(KAB, A, B, Terms), A, B, NA |}sk(A, s), {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
+  A->B: {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
  
 Goals: 
-  A authenticates s on contract(KAB, Terms)
-  B authenticates s on contract(KAB, Terms)
-  contract(KAB, Terms) secret between A,B,s
+  A authenticates s on contract(KAB, A, B, Terms)
+  B authenticates s on contract(KAB, A, B, Terms)
+  contract(KAB, A, B, Terms) secret between A,B,s
 
