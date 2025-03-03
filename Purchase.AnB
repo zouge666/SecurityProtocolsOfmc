@@ -4,17 +4,17 @@ Types:
   Agent A, B, s;
   Number NA, NB;
   Symmetric_key KAB;
-  Function sk, contract
+  Function sk, pk, contract
 
 Knowledge:
-  A: A, B, s, sk(A, s);
-  B: A, B, s, sk(B, s);
-  s: A, B, s, sk(A, s), sk(B, s), contract;
+  A: A, B, s, pk(A), pk(B), pk(s), inv(pk(A)), sk(A, s);
+  B: A, B, s, pk(A), pk(B), pk(s), inv(pk(B)), sk(B, s);
+  s: A, B, s, pk(A), pk(B), pk(s), inv(pk(s)), sk(A, s), sk(B, s), contract;
   where A!=B
 
 Actions:
-  A->B: A,B,NA,Terms
-  B->s: A,B,NA,NB,Terms
+  A->B: { A, B, NA, Terms }pk(B)
+  B->s: { A, B, NA, NB, Terms}pk(s)
   s->A: {| contract(KAB, A, B, Terms), A, B, NA |}sk(A, s), {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
   A->B: {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
  
