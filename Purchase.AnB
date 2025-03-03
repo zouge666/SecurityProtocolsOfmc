@@ -1,22 +1,22 @@
 Protocol: Purchase
 
 Types:
-  Agent A,B,s;
-  Number NA,NB;
+  Agent A, B, s;
+  Number NA, NB;
   Symmetric_key KAB;
-  Function sk
+  Function sk, contract
 
 Knowledge:
-  A: A,B,s,sk(A,s);
-  B: A,B,s,sk(B,s);
-  s: A,B,s,sk(A,s),sk(B,s),contract;
+  A: A, B, s, sk(A, s);
+  B: A, B, s, sk(B, s);
+  s: A, B, s, sk(A, s), sk(B, s), contract;
   where A!=B
 
 Actions:
   A->B: A,B,NA,Terms
   B->s: A,B,NA,NB,Terms
-  s->A: {| contract(KAB, Terms), A, B, NA |}sk(A,s), {| contract(KAB, Terms), A, B, NB |}sk(B,s)
-  A->B: {| contract(KAB, Terms), A, B, NB |}sk(B,s)
+  s->A: {| contract(KAB, Terms), A, B, NA |}sk(A, s), {| contract(KAB, Terms), A, B, NB |}sk(B, s)
+  A->B: {| contract(KAB, Terms), A, B, NB |}sk(B, s)
  
 Goals: 
   A authenticates s on contract(KAB, Terms)
