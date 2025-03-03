@@ -1,26 +1,25 @@
 Protocol: Purchase
 
 Types:
-  Agent A, B, s;
-  Number X, Y, g, agreement_a, agreement_b, contract, dummy;
-  Function sk;
+  Agent A,B,s;
+  Number NA,NB;
+  Symmetric_key KAB;
+  Function sk
 
 Knowledge:
-  A: A, B, s, sk(A, s), g, agreement_a, dummy;
-  B: A, B, s, sk(B, s), g, agreement_b, dummy;
-  s: A, B, s, sk(A, s), sk(B, s), g, contract;
+  A: A,B,s,sk(A,s);
+  B: A,B,s,sk(B,s);
+  s: A,B,s,sk(A,s),sk(B,s),contract;
+  where A!=B
 
 Actions:
-  A->B: exp(g, X)
-  B->s: {| A, B, exp(g, X), exp(g, Y) |}sk(B, s)
-  s->A: {| A, B, exp(g, X), exp(g, Y) |}sk(A, s)
-  A->B: {| agreement_a |}exp(exp(g, X), Y)
-  B->s: {| agreement_a, agreement_b |}sk(B, s)
-  s->A: {| agreement_a, agreement_b, contract |}sk(A, s)
-  A->B: dummy
-  B->s: dummy
-  s->B: {| agreement_a, agreement_b, contract |}sk(B, s)
+  A->B: A,B,NA,Terms
+  B->s: A,B,NA,NB,Terms
+  s->A: {| contract(KAB, Terms), A, B, NA |}sk(A,s), {| contract(KAB, Terms), A, B, NB |}sk(B,s)
+  A->B: {| contract(KAB, Terms), A, B, NB |}sk(B,s)
+ 
+Goals: 
+  A authenticates s on contract(KAB, Terms)
+  B authenticates s on contract(KAB, Terms)
+  contract(KAB, Terms) secret between A,B,s
 
-Goals:
-  A authenticates B on exp(exp(g,X),Y);
-  B authenticates A on exp(exp(g,X),Y);
