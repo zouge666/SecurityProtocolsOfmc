@@ -1,0 +1,23 @@
+Protocol: UploadOffer
+
+Types:
+    Agent User, Website;
+    Data OfferData;
+    Number OfferID, Timestamp, Nonce;
+    Function pk, sk;
+
+Knowledge:
+    User: User, Website, pk(User), inv(pk(User)), pk(Website);
+    Website: User, Website, pk(User), pk(Website), inv(pk(Website));
+
+Actions:
+    Website -> User: {Nonce, User, Website}inv(pk(Website))
+
+    User -> Website: {OfferID, {OfferData}pk(Website), Timestamp, Nonce, Website, User}inv(pk(User))
+
+    Website -> User: {OfferID, Timestamp, User, Website}inv(pk(Website))
+
+Goals:
+    Website authenticates User on OfferData;
+    User authenticates Website on OfferID;
+    OfferData secret between User, Website;
