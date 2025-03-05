@@ -1,35 +1,34 @@
-Protocol: UR
+Protocol: UserSignup
 
 Types:
-  Agent A,B,mitp;
-  Number X,Y,g,Mit,NM;
-  Function sk,pw;
+  Agent A,B,mittrustparty;
+  Number X,Y,g,Mitid,NM;
+  Function sk,certificate,pw;
 
 Knowledge:
-  A: A,B,mitp,sk(A,mitp),g;
-  B: A,B,mitp,sk(B,mitp),g,pw(A,B);
-  mitp: A,B,mitp,sk(A,mitp),sk(B,mitp),g;
+  A: A,B,mittrustparty,sk(A,mittrustparty),g;
+  B: A,B,mittrustparty,sk(B,mittrustparty),g,pw(A,B);
+  mittrustparty: A,B,mittrustparty,sk(A,mittrustparty),sk(B,mittrustparty),g,certificate;
   where A!=B
 
 Actions:
-  A->mitp: A,mitp,B
-  mitp->B: mitp,B,
-  B->A: A,mitp,B,exp(g,Y),
-  A->mitp:{|A,exp(g,X),B,exp(g,Y),Mit,|}sk(A,mitp)
-  mitp->B:{|A,exp(g,X),B,exp(g,Y),|}sk(B,mitp)
+  A->mittrustparty: A,B,mittrustparty
+  mittrustparty->B: NM,mittrustparty,B
+  B->A: A,mittrustparty,B,exp(g,Y),NM
+  A->mittrustparty:{|A,exp(g,X),B,exp(g,Y),Mitid,NM|}sk(A,mittrustparty)
+  mittrustparty->B:{|A,certificate(A,Mitid),NM,exp(g,X),B,exp(g,Y)|}sk(B,mittrustparty)
   B->A: {|pw(A,B)|}exp(exp(g,X),Y)
   
 Goals:
-exp(exp(g,X),Y) secret between A,B
-B authenticates A on exp(exp(g,X),Y)
-A authenticates B on exp(exp(g,X),Y)
+Mitid secret between A,mittrustparty
+mittrustparty authenticates A on Mitid
 
-MitID secret between A,mitp
-mitp authenticates A on Mit
+certificate(A,Mitid) secret between mittrustparty,B
+B authenticates mittrustparty on certificate(A,Mitid)
 
 pw(A,B) guessable secret between A,B 
 A authenticates B on pw(A,B)
 
-
-
-
+exp(exp(g,X),Y) secret between A,B
+B authenticates A on exp(exp(g,X),Y)
+A authenticates B on exp(exp(g,X),Y)
