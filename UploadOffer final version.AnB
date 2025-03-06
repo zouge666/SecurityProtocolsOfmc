@@ -1,23 +1,23 @@
 Protocol: UploadOffer
 
 Types:
-    Agent User, Website;
-    Data OfferData;
-    Number OfferID, Timestamp, Nonce;
+    Agent A, B;
+    Number Payload, NA, NB;
     Function pk, sk;
 
 Knowledge:
-    User: User, Website, pk(User), inv(pk(User)), pk(Website);
-    Website: User, Website, pk(User), pk(Website), inv(pk(Website));
+    A: A, B, pk(A), inv(pk(A)), pk(B);
+    B: A, B, pk(A), pk(B), inv(pk(B));
 
 Actions:
-    Website -> User: {Nonce, User, Website}inv(pk(Website))
 
-    User -> Website: {OfferID, {OfferData}pk(Website), Timestamp, Nonce, Website, User}inv(pk(User))
+    A -> B: {Payload, NA, {Payload, NA, A}inv(pk(A))}pk(B)
 
-    Website -> User: {OfferID, Timestamp, User, Website}inv(pk(Website))
+    B -> A: {NA, NB, {NA, NB, B}inv(pk(B))}pk(A)
+
+    A -> B: {NB, {NB, A}inv(pk(A))}pk(B)
 
 Goals:
-    Website authenticates User on OfferData;
-    User authenticates Website on OfferID;
-    OfferData secret between User, Website;
+    B authenticates A on Payload;
+    A authenticates B on Payload;
+    Payload secret between A, B;
