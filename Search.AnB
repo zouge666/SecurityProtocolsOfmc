@@ -1,0 +1,25 @@
+Protocol: Search
+
+Types:
+    Agent A, B;
+    Number Query, NA, NB;
+    Function pk, sk, pw;
+
+Knowledge:
+    A: A, B, pw(A,B), pk(B);
+    B: A, B, pw(A,B), pk(B), inv(pk(B));
+
+Actions:
+
+    A -> B: {A, NA, pw(A,B)}pk(B)
+
+    B -> A: {|B, NB, NA|}pw(A,B)
+
+    A -> B: {|Query, NB, NA, A, B|}pw(A,B)
+
+    B -> A: {|NB, NA, A, B|}pw(A,B)
+
+Goals:
+    B authenticates A on Query;
+    A authenticates B on Query;
+    Query secret between A, B;
