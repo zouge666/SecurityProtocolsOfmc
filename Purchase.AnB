@@ -1,25 +1,26 @@
 Protocol: Purchase
 
 Types:
-  Agent A, B, s;
-  Number NA, NB;
-  Symmetric_key KAB;
-  Function sk, pk, contract
+  Agent B, M, s;
+  Number NB, NM;
+  Symmetric_key KBM;
+  Function pw, pk;
+
 
 Knowledge:
-  A: A, B, s, pk(A), pk(B), pk(s), inv(pk(A)), sk(A, s);
-  B: A, B, s, pk(A), pk(B), pk(s), inv(pk(B)), sk(B, s);
-  s: A, B, s, pk(A), pk(B), pk(s), inv(pk(s)), sk(A, s), sk(B, s), contract;
-  where A!=B
+  B: B, M, s, pk(B), pk(M), pk(s), inv(pk(B)), pw(B, s);
+  M: B, M, s, pk(B), pk(M), pk(s), inv(pk(M)), pw(M, s);
+  s: B, M, s, pk(B), pk(M), pk(s), inv(pk(s)), pw(B, s), pw(M, s), contract;
+  where B != S
 
 Actions:
-  A->B: { A, B, NA, Terms }pk(B)
-  B->s: { A, B, NA, NB, Terms}pk(s)
-  s->A: {| contract(KAB, A, B, Terms), A, B, NA |}sk(A, s), {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
-  A->B: {| contract(KAB, A, B, Terms), A, B, NB |}sk(B, s)
- 
-Goals: 
-  A authenticates s on contract(KAB, A, B, Terms)
-  B authenticates s on contract(KAB, A, B, Terms)
-  contract(KAB, A, B, Terms) secret between A,B,s
+  B -> M: { B, M, NB, Terms }pk(M)
+  M -> s: { B, M, NB, NM, Terms }pk(s)
+  s -> B: {| contract(KBM, B, M, Terms), B, M, NB |}pw(B, s), {| contract(KBM, B, M, Terms), B, M, NM |}pw(M, s)
+  B -> M: {| contract(KBM, B, M, Terms), B, M, NM |}pw(M, s)
 
+
+Goals:
+  B authenticates s on contract(KBM, B, M, Terms)
+  M authenticates s on contract(KBM, B, M, Terms)
+  contract(KBM, B, M, Terms) secret between B, M, s
