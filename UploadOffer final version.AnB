@@ -3,19 +3,17 @@ Protocol: UploadOffer
 Types:
     Agent A, B;
     Number Payload, NA, NB;
-    Function pk, sk;
+    Function pk, sk, bookkey, pw;
 
 Knowledge:
-    A: A, B, pk(A), inv(pk(A)), pk(B);
-    B: A, B, pk(A), pk(B), inv(pk(B));
+    A: A, B, pw(A,B), pk(B), bookkey(A,B);
+    B: A, B, pw(A,B), pk(B), inv(pk(B)), bookkey(A,B);
 
 Actions:
-
-    A -> B: {Payload, NA, {Payload, NA, A}inv(pk(A))}pk(B)
-
-    B -> A: {NA, NB, {NA, NB, B}inv(pk(B))}pk(A)
-
-    A -> B: {NB, {NB, A}inv(pk(A))}pk(B)
+    A -> B: {A, NA, pw(A,B), bookkey(A,B)}pk(B)
+    B -> A: {|B, NB, NA|}bookkey(A,B)
+    A -> B: {|Payload, NB, NA, A, B|}bookkey(A,B)
+    B -> A: {|NB, NA, A, B|}bookkey(A,B)
 
 Goals:
     B authenticates A on Payload;
