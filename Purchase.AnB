@@ -8,14 +8,14 @@ Types:
 
 
 Knowledge:
-  B: B, M, s, pk(B), pk(M), pk(s), inv(pk(B)), pw(B, s), contract;
-  M: B, M, s, pk(B), pk(M), pk(s), inv(pk(M)), pw(M, s), contract;
-  s: B, M, s, pk(B), pk(M), pk(s), inv(pk(s)), pw(B, s), pw(M, s);
+  B: B, M, s, pk(B), pk(M), pk(s), inv(pk(B)), pw(B, s);
+  M: B, M, s, pk(B), pk(M), pk(s), inv(pk(M)), pw(M, s);
+  s: B, M, s, pk(B), pk(M), pk(s), inv(pk(s)), pw(B, s), pw(M, s), contract;
   where B != M
 
 Actions:
   B -> M: { B, M, NB, Terms }pk(M)
-  M -> s: { B, M, NB, NM, Terms, contract }pk(s)
+  M -> s: { B, M, NB, NM, Terms }pk(s)
   s -> B: {| contract(KBM, B, M, Terms), B, M, NB |}pw(B, s), {| contract(KBM, B, M, Terms), B, M, NM |}pw(M, s)
   B -> M: {| contract(KBM, B, M, Terms), B, M, NM |}pw(M, s)
 
