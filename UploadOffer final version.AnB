@@ -3,10 +3,10 @@ Protocol: UploadOffer
 Types:
     Agent A, B;
     Number Offer, NA, NB;
-    Function pk, sk, pw, h;
+    Function pk, pw, h;
 
 Knowledge:
-    A: A, B, pw(A,B), pk(B), h;
+    A: A, B, pw(A,B), pk(B), pk(A), inv(pk(A)), h;
     B: A, B, pw(A,B), pk(B), inv(pk(B)), h;
 
 Actions:
