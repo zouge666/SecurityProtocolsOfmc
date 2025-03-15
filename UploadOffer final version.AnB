@@ -20,6 +20,6 @@ Actions:
     B -> A: {|NB, NA, A, B|}h(pw(A,B), NA)
 
 Goals:
-    B authenticates A on Offer;
-    A authenticates B on Offer;
-    Offer secret between A, B;
+    A authenticates B on Offer,pw(A,B),h(pw(A,B), NA);
+    B authenticates A on Offer,pw(A,B),h(pw(A,B), NA);
+    Offer,pw(A,B),h(pw(A,B), NA) secret between A, B;
