@@ -2,24 +2,24 @@ Protocol: Search
 
 Types:
     Agent A, B;
-    Number Query, NA, NB;
+    Number Query, NA, NB, Result;
     Function pk, sk, pw, h;
 
 Knowledge:
-    A: A, B, pw(A,B), pk(B), h;
+    A: A, B, pw(A,B), pk(B), h, inv(pk(A)), pk(A);
     B: A, B, pw(A,B), pk(B), inv(pk(B)), h;
 
 Actions:
 
-    A -> B: {A, NA, pw(A,B), h(pw(A,B), NA)}pk(B)
+    A -> B: {pk(A), A, NA, pw(A,B)}pk(B)
 
-    B -> A: {|B, NB, NA|}h(pw(A,B), NA)
+    B -> A: {B, NB, NA}pk(A)
 
-    A -> B: {|Query, NB, NA, A, B|}h(pw(A,B), NA)
+    A -> B: {Query, NB, NA, A, B}pk(B)
 
-    B -> A: {|NB, NA, A, B|}h(pw(A,B), NA)
+    B -> A: {Result, NB, NA, A, B}pk(A)
 
 Goals:
-    B authenticates A on Query;
-    A authenticates B on Query;
-    Query secret between A, B;
+    B authenticates A on Query, pw(A,B);
+    A authenticates B on Result, pw(A,B);
+    pw(A,B), Query, Result secret between A, B;
