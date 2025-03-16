@@ -1,0 +1,21 @@
+Protocol: UploadOffer
+
+Types:
+    Agent A, B;
+    Number Offer, NA, NB;
+    Function pk, sk, pw;
+
+Knowledge:
+    A: A, B, pw(A,B), pk(B), sk(A,B);
+    B: A, B, pw(A,B), pk(B), inv(pk(B)), sk(A,B);
+
+Actions:
+    A -> B: {A, NA, pw(A,B), sk(A,B)}pk(B)
+    B -> A: {|B, NB, NA|}sk(A,B)
+    A -> B: {|Offer, NB, NA, A, B|}sk(A,B)
+    B -> A: {|NB, NA, A, B|}sk(A,B)
+
+Goals:
+    A authenticates B on Offer, pw(A,B);
+    B authenticates A on Offer, pw(A,B);
+    Offer, pw(A,B), sk(A,B) secret between A, B;
