@@ -3,20 +3,16 @@ Protocol: Search
 Types:
     Agent A, B;
     Number Query, NA, NB, Result;
-    Function pk, sk, pw, h;
+    Function pk, sk, pw;
 
 Knowledge:
-    A: A, B, pw(A,B), pk(B), h, inv(pk(A)), pk(A);
-    B: A, B, pw(A,B), pk(B), inv(pk(B)), h;
+    A: A, B, pw(A,B), pk(B), inv(pk(A)), pk(A);
+    B: A, B, pw(A,B), pk(B), inv(pk(B));
 
 Actions:
-
     A -> B: {pk(A), A, NA, pw(A,B)}pk(B)
-
     B -> A: {B, NB, NA}pk(A)
-
     A -> B: {Query, NB, NA, A, B}pk(B)
-
     B -> A: {Result, NB, NA, A, B}pk(A)
 
 Goals:
